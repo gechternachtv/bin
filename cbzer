@@ -1,0 +1,5 @@
+for d in */; do
+  cd "$d"
+  img2pdf $(find . -type f -iname '*.jpg' | sort -V) -o "../${d%/}.pdf" --pagesize 600x800
+  cd ..
+done
