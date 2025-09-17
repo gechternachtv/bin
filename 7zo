@@ -1,0 +1,10 @@
+#!/bin/bash
+
+if [ $# -eq 0 ]; then
+    echo "Usage: $0 <zip-file>"
+    exit 1
+fi
+
+ZIPFILE="$1"
+
+7z l "$ZIPFILE" | awk 'NR>10 {if($6!="") printf "%.2f MB | %s\n", $5/1024/1024, $6}' | sed '$d'

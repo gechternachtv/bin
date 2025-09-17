@@ -1,2 +1,2 @@
 #!/bin/bash
-(clear; cd /; cat home/gechternacht/Documents/asciimono; play -q  home/gechternacht/music/2_24.wav;clear)
+(clear; cd /; ~/Documents/asciimono; play -q  ~/music/2_24.wav;clear)
