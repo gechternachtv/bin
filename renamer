@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Usage: renamer <file>
+#
+old="$1"
+dir=$(dirname "$old")
+file=$(basename "$old")
+
+# temp file with just the filename
+tmpfile=$(mktemp)
+echo "$file" > "$tmpfile"
+
+nvim "$tmpfile"
+
+new=$(<"$tmpfile")
+rm "$tmpfile"
+
+[ "$new" != "$file" ] && mv "$old" "$dir/$new"

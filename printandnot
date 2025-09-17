@@ -1,0 +1,5 @@
+#!/usr/bin/fish
+
+play ~/beep2.wav &
+maim ~/scrotprints/maim-$(date +%s).png;
+# dunstify -h string:x-dunst-stack-tag:print "maim-$(date +%s).png" &

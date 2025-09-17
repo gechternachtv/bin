@@ -1,0 +1,16 @@
+#!/bin/sh
+
+TARGET_FILE="$HOME/notes.yaml"
+ENTRY=$(echo "" | dmenu  -i -c -l 5 -nb '#dad4c8' -sf '#dad4c8' -sb '#920f06' -nf '#0f3c25' -p "❒ add note:")
+
+if [ -n "$ENTRY" ]; then
+    DATE=$(date +%y-%m-%d)
+    TMPFILE=$(mktemp)
+    {
+        echo "$DATE: \"$ENTRY\""
+        cat "$TARGET_FILE"
+    } > "$TMPFILE"
+
+    mv "$TMPFILE" "$TARGET_FILE"
+    # notify-send "Prepended to YAML:" "$DATE: $ENTRY"
+fi

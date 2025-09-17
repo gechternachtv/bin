@@ -1,0 +1,32 @@
+#!/usr/bin/env fish
+
+# on fish config:
+
+	# set -Ux ZONE "zone"
+	# set -Ux TIMEZONEDB_KEY "key"
+
+# Check if the variable exists
+if not set -q TIMEZONEDB_KEY
+    echo "TIMEZONEDB_KEY is not set. Use: set -Ux TIMEZONEDB_KEY your_api_key"
+    exit 1
+end
+
+
+
+# Fetch time data from TimeZoneDB
+set TIME (curl -s "http://api.timezonedb.com/v2.1/get-time-zone?key=$TIMEZONEDB_KEY&format=json&by=zone&zone=$ZONE" | jq -r ".formatted")
+
+# Check if valid time was received
+if test -z "$TIME" -o "$TIME" = "null"
+    echo "Failed to fetch time."
+    exit 1
+end
+
+echo "Fetched time: $TIME"
+
+# Convert time to format required by `date` (MMDDhhmmYYYY.ss)
+set FORMATTED_TIME (date -d "$TIME" +%m%d%H%M%Y.%S)
+
+# Set system time (requires sudo)
+echo "Setting system time to $TIME"
+sudo date "$FORMATTED_TIME"

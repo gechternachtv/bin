@@ -1,0 +1,22 @@
+#!/usr/bin/bash
+
+# feh --no-fehbg --bg-tile /home/gechternacht/neuimages/Wallpapers/miku2.png
+nitrogen --restore &
+
+if pid=$(pidof polybar); then
+    kill "$pid"
+fi
+polybar &
+
+if pid=$(pidof xmousepasteblock); then
+    kill "$pid"
+fi
+xmousepasteblock &
+
+if pid=$(pidof picom); then
+    kill "$pid"
+fi
+# picom --fade-in-step=1 --fade-out-step=1 &
+exit 0
+
+setxkbmap -layout us -variant intl

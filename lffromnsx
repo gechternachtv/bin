@@ -1,0 +1,15 @@
+#!/bin/bash
+mapfile -t files
+[ ${#files[@]} -eq 0 ] && exit 0
+
+# Build a safe command string, quoting each filename
+cmd="send toggle"
+for f in "${files[@]}"; do
+  esc=${f//\'/\'\"\'\"\'}
+  cmd+=" '$esc'"
+done
+
+echo "-selected images:-"
+echo "$cmd"
+lf -remote "$cmd"
+echo "---"

@@ -1,0 +1,55 @@
+#!/bin/bash
+
+# Usage: ./sxiv-open.sh /full/path/to/image
+
+target_image="$1"
+
+if [ -z "$target_image" ]; then
+    echo "Usage: $0 /full/path/to/image"
+    exit 1
+fi
+
+dir="$(dirname "$target_image")"
+file="$(basename "$target_image")"
+
+# Build list of images in the directory (relative paths)
+img_list=()
+while IFS= read -r img; do
+    img_list+=("$(basename "$img")")
+done < <(find "$dir" -maxdepth 1 -type f \( \
+    -iname '*.png' -o \
+    -iname '*.jpg' -o \
+    -iname '*.jpeg' -o \
+    -iname '*.gif' -o \
+    -iname '*.webp' -o \
+    -iname '*.bmp' -o \
+    -iname '*.tiff' \
+\) | sort)
+
+# Find the index of the target image
+index=-1
+
+for i in "${!img_list[@]}"; do
+    if [ "${img_list[$i]}" = "$file" ]; then
+        index="$i"
+        break
+    fi
+done
+
+if [ "$index" -eq -1 ]; then
+    echo "Error: target image not found in folder."
+    exit 2
+fi
+
+# Debug: print list and index
+# echo "Index (0-based): $index"
+# printf '%s\n' "${img_list[@]}"
+
+# Change to the directory and launch sxiv (paths are now relative)
+cd "$dir" || exit 1
+
+if [ "${#img_list[@]}" -eq 1 ]; then
+    nsxiv -o "${img_list[@]}"
+else
+    nsxiv -o -n "$((index + 1))" "${img_list[@]}"
+fi

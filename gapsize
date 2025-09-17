@@ -1,0 +1,44 @@
+#!/usr/bin/fish
+
+if [ $argv[1] = "-dec" ];
+	set currentgap  $(bspc config -d focused left_padding)   	
+	set nextgap $(math $currentgap - $argv[2])
+	if [ 0 -ge $nextgap ]
+		bspc config -d focused window_gap 0 
+		bspc config -d focused left_padding 0
+		bspc config -d focused right_padding 0
+		bspc config -d focused bottom_padding 0
+		bspc config -d focused top_padding 0
+	else 
+		bspc config -d focused window_gap 24
+		bspc config -d focused left_padding $nextgap
+		bspc config -d focused right_padding $nextgap
+		bspc config -d focused bottom_padding $nextgap
+		bspc config -d focused top_padding $nextgap
+
+	end
+
+	
+
+else if [ $argv[1] = "-inc" ]
+
+	set currentgap  $(bspc config -d focused left_padding)   	
+	if [ $currentgap = 0 ]
+		set firstgap 5
+		bspc config -d focused window_gap 10
+		bspc config -d focused left_padding $firstgap
+		bspc config -d focused right_padding $firstgap
+		bspc config -d focused bottom_padding $firstgap
+		bspc config -d focused top_padding $firstgap
+	else
+
+		set currentgap  $(bspc config -d focused left_padding)   	
+		set nextgap $(math $currentgap + $argv[2])
+		bspc config -d focused window_gap 24 
+		bspc config -d focused left_padding $nextgap
+		bspc config -d focused right_padding $nextgap
+		bspc config -d focused bottom_padding $nextgap
+		bspc config -d focused top_padding $nextgap
+	end
+end
+

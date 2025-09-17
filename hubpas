@@ -1,0 +1,3 @@
+#!/usr/bin/bash
+
+ cat $HOME/.config/hub | grep oauth | cut -c 16-55 | xsel --primary | xsel --clipboard

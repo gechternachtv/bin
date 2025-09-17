@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Check if an argument is provided
+echo "copying..."
+if [ $# -eq 0 ]; then
+    echo "No argument provided"
+    exit 1
+fi
+
+# Take the first argument and store it in a variable
+argument="$1"
+
+# Use echo to output the argument, then pipe it to xclip
+echo "$argument" | xclip -selection clipboard
+
+echo "Argument copied to clipboard: $argument"

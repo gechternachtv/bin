@@ -1,0 +1,2 @@
+#!/bin/bash
+while true; do play ./beep.mp3; sleep 3600; done

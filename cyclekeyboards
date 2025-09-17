@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Get current layout
+current=$(setxkbmap -query | grep layout | awk '{print $2}')
+
+# Toggle between US and BR
+if [ "$current" == "us" ]; then
+    setxkbmap -layout br -variant abnt2
+else
+    setxkbmap -layout us -variant intl
+fi

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+echo "notebook keyboard deactivated and keymap to us, xinput float x"
+xinput list | grep "Set 2"
+setxkbmap us

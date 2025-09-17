@@ -1,0 +1,20 @@
+#!/usr/bin/env fish
+
+# Get default source (usually the microphone)
+set default_source (pactl get-default-source)
+
+# Get the current mute status (yes or no)
+set mute_status (pactl get-source-mute $default_source | awk '{print $2}')
+
+# Toggle the mute status
+if test $mute_status = yes
+    pactl set-source-mute $default_source 0
+    
+  #  echo "label-muted"
+else
+    pactl set-source-mute $default_source 1
+    
+   # echo "label-live"
+end
+
+polybar-restart

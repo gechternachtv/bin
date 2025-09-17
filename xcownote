@@ -1,0 +1,6 @@
+#!/bin/bash
+
+input=$(cat)
+if [ -n "$input" ]; then
+	echo "$input" | xcowsay --think
+fi

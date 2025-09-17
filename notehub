@@ -1,0 +1,2 @@
+#!/bin/bash
+(cd ~/Desktop/notehub/; ./pocketbase serve --http="192.168.0.153:8000")

@@ -1,0 +1,62 @@
+#!/usr/bin/env bun
+
+const { exit } = require("process");
+const fs = require('fs');
+if (process.argv[2]) {
+
+    const { exec } = require("child_process");
+
+    function errorHandling(error, stderr) {
+        if (error) {
+            console.warn(`error: ${error.message}`);
+            return;
+        }
+        if (stderr) {
+            console.warn(`stderr: ${stderr}`);
+            return;
+        }
+    }
+
+    function bar(options,args,title) {
+        console.log(options["args"])
+        if(options["options"] && options["args"]){
+            bar(options["options"],options["args"])
+        }else{
+            const optionsString = Object.keys(options).join("\n");
+            const lineargs = process.argv[3] ? process.argv[3] : args
+
+            exec(`echo '${optionsString}' | dmenu -c -i -l 10 ${lineargs ? lineargs : ""} ${title ? ` -p "${title}:"` : ""}`, (error, stdout, stderr) => {
+                errorHandling(error, stderr);
+                selectedOptionString = stdout.replace(/\n/g, '')
+                const selectedOption = options[selectedOptionString];
+
+                if (typeof selectedOption === "object") {
+                    bar(selectedOption,args,selectedOptionString);
+                } else if(typeof selectedOption === "string"){
+                    exec(selectedOption, (error, stdout, stderr) => {
+                        errorHandling(error, stderr);
+                        console.log(stdout);
+                        exit();
+                    });
+                }
+            });
+        }
+    }
+
+    fs.readFile(process.argv[2], 'utf8', (err, data) => {
+        if (err) {
+            console.error(err);
+            return;
+        }
+        try {
+            const menu = JSON.parse(data);
+            
+            bar(menu);
+        } catch (error) {
+            console.log(error);
+        }
+    });
+
+} else {
+    console.log("no input file");
+}

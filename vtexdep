@@ -1,0 +1,56 @@
+#!/bin/bash
+
+
+echo ""
+echo "==============================================="
+echo " STEP 0: Check self (•ิ_•ิ)"
+echo "==============================================="
+echo ""
+
+vtex whoami
+
+echo ""
+echo "==============================================="
+echo " STEP 1: Releasing patch to stable branch (•ิ_•ิ)"
+echo "==============================================="
+echo ""
+
+vtex release patch stable
+
+echo ""
+echo "==============================================="
+echo " STEP 2: Publishing the release (•ิ_•ิ)"
+echo "==============================================="
+echo ""
+
+vtex publish
+
+echo ""
+echo "==============================================="
+echo " STEP 3: Switching to master in production (•ิ_•ิ)"
+echo "==============================================="
+echo ""
+
+vtex use master --production
+
+echo ""
+echo "==============================================="
+echo " STEP 4: Installing dependencies (•ิ_•ิ)"
+echo "==============================================="
+echo ""
+
+vtex install
+
+echo ""
+echo "==============================================="
+echo " STEP 5: Deploying (｡•̀ᴗ-)✧"
+echo "==============================================="
+echo ""
+
+vtex deploy --force
+
+echo ""
+echo "==============================================="
+echo " All steps completed successfully! (b ᵔ▽ᵔ)b"
+echo "==============================================="
+echo ""

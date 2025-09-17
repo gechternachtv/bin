@@ -1,0 +1,5 @@
+#!/bin/bash
+	if pid=$(pidof polybar); then
+    kill "$pid"
+	fi
+	polybar &

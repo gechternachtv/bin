@@ -1,0 +1,6 @@
+#!/usr/bin/fish
+if [ $(echo $(pidof picom)) != "" ];
+	kill $(pidof picom)
+else
+	picom &
+end 

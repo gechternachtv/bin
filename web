@@ -1,0 +1,35 @@
+#!/bin/bash
+
+
+TEMPLATE_FOLDER="/home/gechternacht/bin/web-template"
+echo $TEMPLATE_FOLDER
+
+if [ -d "$TEMPLATE_FOLDER" ]; then
+    cp -r "$TEMPLATE_FOLDER/." .
+    echo "Template files copied to the current folder."
+else
+    echo "Template folder not found!"
+fi
+
+
+CURRENT_FOLDER_NAME=$(basename "$(pwd)")
+
+
+HTML_FILE="index.html"
+if [ -f "$HTML_FILE" ]; then
+    sed -i "s/LOCALE/$CURRENT_FOLDER_NAME/g" "$HTML_FILE"
+else
+    echo "index.html not found in the target folder!"
+    exit 1
+fi
+
+
+if [ -f "package.json" ]; then
+    sed -i "s/PROJECTNAME/$CURRENT_FOLDER_NAME/g" "package.json"
+
+else
+    echo "package.json not found in the target folder"
+    exit 1
+fi
+
+echo "add packages with yarn and or run vite/vite build"
