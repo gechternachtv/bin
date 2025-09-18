@@ -1,0 +1,23 @@
+#!/usr/bin/env bun
+
+import fs from "fs";
+import YAML from "yaml";
+
+const [yamlFile, textFile] = process.argv.slice(2);
+if (!yamlFile || !textFile) {
+  console.error("arguments: file.yaml source.txt > output.txt");
+  process.exit(1);
+}
+
+const yamlContent = fs.readFileSync(yamlFile, "utf8");
+let textContent = fs.readFileSync(textFile, "utf8");
+
+const data = YAML.parse(yamlContent);
+
+for (const key of Object.keys(data)) {
+  const value = data[key];
+  const regex = new RegExp(`{{${key}}}`, "g");
+  textContent = textContent.replace(regex, value);
+}
+
+console.log(textContent);
