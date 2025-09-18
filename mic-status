@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+pactl get-source-mute "$(pactl get-default-source)" | awk '{print ($2 == "yes" ? "µ" : "♣")}'
