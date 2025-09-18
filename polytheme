@@ -1,6 +1,6 @@
 #!/bin/bash
 (cd ~/.config/polybar; 
-	selected_branch=$(git branch -l | sed 's/\*/ /' | sed 's/ //g'  | dmenu -c -i -l 10 -nb "#4e4b61" -sf "#4e4b61" -sb "#c1b492" -nf "#c1b492" -p "❒ theme:");
-	git checkout "$selected_branch";
+	selected_yml=$(ls *.yaml  | sed 's/\.\(yml\|yaml\)$//' | dmenu -c -i -l 10 -nb "#4e4b61" -sf "#4e4b61" -sb "#c1b492" -nf "#c1b492" -p "❒ theme:");
+	varyaml "$selected_yml".yaml template.ini > config.ini
 	polybar-restart
 	)
