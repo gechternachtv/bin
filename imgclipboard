@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+if [ "$#" -gt 0 ]; then
+  line="$1"
+else
+  IFS= read -r line
+fi
+
+if [ ! -f "$line" ]; then
+  echo "File not found: $line" >&2
+  exit 1
+fi
+echo $(file -b --mime-type "$line")
+echo "$line"
+xclip -selection clipboard -t "$(file -b --mime-type "$line")" -i "$line"

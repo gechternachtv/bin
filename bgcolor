@@ -1,0 +1,4 @@
+#!/bin/bash
+
+ 
+sed -i "/bgcolor/c\bgcolor=$1" /home/gechternacht/.config/nitrogen/bg-saved.cfg ; nitrogen --restore &

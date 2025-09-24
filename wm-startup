@@ -1,5 +1,6 @@
 #!/usr/bin/bash
 
+export LANG=en_US.UTF-8
 # feh --no-fehbg --bg-tile /home/gechternacht/neuimages/Wallpapers/miku2.png
 nitrogen --restore &
 
