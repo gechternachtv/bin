@@ -1,6 +1,13 @@
 #!/bin/bash
-(cd ~/.config/polybar; 
+(cd ~/themes; 
 	selected_yml=$(ls *.yaml  | sed 's/\.\(yml\|yaml\)$//' | dmenu -c -i -l 10 -nb "#4e4b61" -sf "#4e4b61" -sb "#c1b492" -nf "#c1b492" -p "❒ theme:");
-	varyaml "$selected_yml".yaml template.ini > config.ini
-	polybar-restart
-	)
+	
+	if [[ -n "$selected_yml" ]]; then
+
+		if [[ -f "./$selected_yml.yaml" ]]; then
+
+			varyaml "$selected_yml".yaml /home/gechternacht/.config/polybar/template.ini > /home/gechternacht/.config/polybar/config.ini
+			polybar-restart
+		fi
+	fi
+)

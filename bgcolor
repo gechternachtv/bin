@@ -1,4 +1,9 @@
 #!/bin/bash
 
- 
-sed -i "/bgcolor/c\bgcolor=$1" /home/gechternacht/.config/nitrogen/bg-saved.cfg ; nitrogen --restore &
+#use arg or stdin
+arg="${1:-$(IFS= read -r line && echo "$line")}"
+
+
+if [ -n "$arg" ]; then
+sed -i "/bgcolor/c\bgcolor=$arg" /home/gechternacht/.config/nitrogen/bg-saved.cfg ; nitrogen --restore &
+fi

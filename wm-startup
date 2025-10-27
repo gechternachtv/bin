@@ -20,4 +20,4 @@ fi
 # picom --fade-in-step=1 --fade-out-step=1 &
 exit 0
 
-setxkbmap -layout us -variant intl
+keyboard
