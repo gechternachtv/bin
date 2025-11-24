@@ -1,0 +1,54 @@
+#!/usr/bin/env bun
+import { execSync } from "child_process";
+
+const START_DATE = new Date("2024-11-18");
+const END_DATE = new Date("2025-03-08");
+
+let validDayCount = 0; // counts only days that are not Sun/Thu/Sat
+
+function randomTime() {
+  const hour = 9 + Math.floor(Math.random() * 8); // 09–16h
+  const minute = Math.floor(Math.random() * 60);
+  const second = Math.floor(Math.random() * 60);
+  return `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}:${String(second).padStart(2, "0")}`;
+}
+
+for (let current = new Date(START_DATE); current <= END_DATE; current.setDate(current.getDate() + 1)) {
+  const weekday = current.getDay(); // 0=Sun, 4=Thu, 6=Sat
+
+  // Skip fixed weekdays first
+  if (weekday === 0 || weekday === 4 || weekday === 6) {
+    console.log(`Skipping ${current.toISOString().slice(0, 10)} (Thu/Sat/Sun)`);
+    continue;
+  }
+
+  validDayCount++;
+
+  // Skip every 4th *valid* day
+  if (validDayCount % 4 === 0) {
+    console.log(`Skipping ${current.toISOString().slice(0, 10)} (every 4th valid day)`);
+    continue;
+  }
+
+  // Commit between 1–5 times that day
+  const commitCount = Math.floor(Math.random() * 5) + 1;
+  for (let i = 0; i < commitCount; i++) {
+    const dateStr = current.toISOString().slice(0, 10);
+    const timeStr = randomTime();
+    const message = `Retro commit ${i + 1}/${commitCount} for ${dateStr} at ${timeStr}`;
+    const fullDate = `${dateStr} ${timeStr}`;
+
+    try {
+      execSync(`git commit --allow-empty -m "${message}"`, {
+        env: {
+          ...process.env,
+          GIT_AUTHOR_DATE: fullDate,
+          GIT_COMMITTER_DATE: fullDate,
+        },
+      });
+      console.log(`Committed ${message}`);
+    } catch (err) {
+      console.error(`Commit failed for ${dateStr}: ${err.message}`);
+    }
+  }
+}

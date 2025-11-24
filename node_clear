@@ -1,0 +1,10 @@
+#!/usr/bin/env fish
+
+set root (pwd)
+if test (count $argv) -gt 0
+    set root $argv[1]
+end
+
+find $root -maxdepth 4 \
+    -type d -name ".??*" -prune -o \
+    -type d -name "node_modules" -prune -exec sh -c 'echo Deleting "{}"; rm -rf "{}"' \;
